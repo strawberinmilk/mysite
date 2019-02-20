@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs')
 
 let server = http.createServer(function(request, response) {
-  const URL = request.url
+  const URL = request.url.toLowerCase()
   console.log(URL)
   let data
   if(URL.match(/jquery\.js/gi)){
