@@ -6,7 +6,7 @@ let server = http.createServer(function(request, response) {
   console.log(URL)
   let log = request.headers
   log.time = new Date
-  fs.appendFileSync(`./log/log.json`,JSON.stringify(log)+",\n")
+  fs.appendFileSync(`./log/log.txt`,JSON.stringify(log)+",\n")
   let data
   if(URL.match(/.*jquery\.js$/gi)){
     data = fs.readFileSync("./jquery.js","utf8")
