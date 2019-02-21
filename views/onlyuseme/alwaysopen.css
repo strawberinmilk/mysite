@@ -1,11 +1,11 @@
-body{
-  color:white;
-}
 .floatL{
   float: left;
 }
 .station{
+  color:white;
   text-align: center;
+  width:600px;
+
 }
 .stationUp{
   background-color: rgb(63, 63, 63);
@@ -31,4 +31,17 @@ body{
   background-color: black;
   margin:-20px 10px 10px 10px;
   font-size: 40px;
+}
+.clock{
+  width:600px;
+  height:250px;
+
+}
+.keikyuTwitter{
+  width:600px;
+  height:300px;
+  overflow: scroll;
+}
+#clockTime{
+  font-size: 90px;
 }

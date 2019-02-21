@@ -7,6 +7,7 @@ holiday.down = [{"service":"普通","laststop":"浦賀","time":"5:02"},{"service
 let todayDia
 let nextTrain
 let interval
+let today //true:holiday,false:weekday
 
 const setup = ()=>{
   clearInterval(interval)
@@ -17,11 +18,19 @@ const setup = ()=>{
     if(day==0) day = 7
     day--
   }
-  if(1<=day && day<=5){
+  if(today){
+    todayDia = holiday
+  }else{
     todayDia = weekday
+  }
+  if(today===null) if(1<=day && day<=5){
+    todayDia = weekday
+    today = false
   }else{
     todayDia = holiday
+    today = true
   }
+  $("#today").text(`本日は${today?"休日":"平日"}ダイヤです`)
   intervalFunction()
   //1分ごとに繰り返し
   let nextFindTime = new Date
@@ -51,6 +60,7 @@ const intervalFunction = ()=>{
   console.log(todayDia.up[nextTrain.up])
   console.log(todayDia.down[nextTrain.down])
   $(".serviceUp").each((i,data)=>{
+    if(!todayDia.up[nextTrain.up+i])return false
     $(data).text(todayDia.up[nextTrain.up+i].service)
     switch(todayDia.up[nextTrain.up+i].service){
       case "普通":
@@ -65,14 +75,17 @@ const intervalFunction = ()=>{
     }
   })
   $(".laststopUp").each((i,data)=>{
+    if(!todayDia.up[nextTrain.up+i])return false
     $(data).text(todayDia.up[nextTrain.up+i].laststop)
 //    $(data).text("品  川")
   })
   $(".timeUp").each((i,data)=>{
+    if(!todayDia.up[nextTrain.up+i])return false
     $(data).text(todayDia.up[nextTrain.up+i].time)
   })
   //下り
   $(".serviceDown").each((i,data)=>{
+    if(!todayDia.down[nextTrain.down+i])return false
     $(data).text(todayDia.down[nextTrain.down+i].service)
     switch(todayDia.down[nextTrain.down+i].service){
       case "普通":
@@ -87,21 +100,25 @@ const intervalFunction = ()=>{
     }
   })
   $(".laststopDown").each((i,data)=>{
+    if(!todayDia.down[nextTrain.down+i])return false
     $(data).text(todayDia.down[nextTrain.down+i].laststop)
   })
   $(".timeDown").each((i,data)=>{
+    if(!todayDia.down[nextTrain.down+i])return false
     $(data).text(todayDia.down[nextTrain.down+i].time)
   })
 }
 const findNextTrain = (going)=>{
   while(true){
+    if(!todayDia[going][nextTrain[going]])break
     let tmp = todayDia[going][nextTrain[going]].time.split(":")
     tmp = {hours:tmp[0],minutes:tmp[1]}
     let scopeTrainTime = new Date
+    if(scopeTrainTime.getHours()<3)scopeTrainTime.setDate(scopeTrainTime.getDate()-1)
     scopeTrainTime.setHours(tmp.hours)
     scopeTrainTime.setMinutes(tmp.minutes)
     let stationTime = new Date
-    stationTime.setMinutes(stationTime.getMinutes()+5)
+//    stationTime.setMinutes(stationTime.getMinutes()+5)
     if(scopeTrainTime.getTime()<stationTime.getTime()){
       nextTrain[going]++
     }else{
@@ -110,4 +127,29 @@ const findNextTrain = (going)=>{
   }
 }
 setup()
-
+$("#today").click(function(){
+  today = !today
+  setup()
+})
+const addZero = num=>{
+  return (num+"").length===1 ? "0"+num : num
+}
+const clock = ()=>{
+  let nowTime = new Date()
+  $("#clockYear").text(nowTime.getFullYear())
+  $("#clockMonth").text(addZero(nowTime.getMonth()+1))
+  $("#clockDate").text(addZero(nowTime.getDate()))
+  $("#clockHours").text(addZero(nowTime.getHours()))
+  $("#clockMinutes").text(addZero(nowTime.getMinutes()))
+  $("#clockSeconds").text(addZero(nowTime.getSeconds()))
+}
+const setClock = ()=>{
+  clock()
+  let nowTime = new Date()
+  setTimeout(()=>{
+    setInterval(()=>{
+      clock()
+    },1000)
+  },1000-nowTime.getMilliseconds())
+}
+setClock()

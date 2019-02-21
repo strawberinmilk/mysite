@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>alwaysOpen</title>
-    <link rel="stylesheet" type="text/css" href="alwaysOpen.css">
+    <link rel="stylesheet" type="text/css" href="alwaysopen.css">
   </head>
   <body>
-    <div class="station">
+    <div class="station floatL">
       <div class="stationUp">
         <div>品川・新橋・日本橋 方面</div><br>
         <div class="service floatL">
@@ -46,7 +46,23 @@
         </div>
       </div>
     </div>
+    <div class="clock floatL  ">
+      <span id="clockYear">-</span>/
+      <span id="clockMonth">-</span>/
+      <span id="clockDate">-</span>
+      <span id="clockTime">
+        <span id="clockHours">-</span>:
+        <span id="clockMinutes">-</span>:
+        <span id="clockSeconds">-</span>
+      </span>
+      <p id="today"></p>
+    </div>
+    <div class="keikyuTwitter floatL">
+      <a class="twitter-timeline" href="https://twitter.com/keikyu_official?ref_src=twsrc%5Etfw">Tweets by keikyu_official</a>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+    </div>
+
     <script type="text/javascript" src="./jquery.js"></script>
-    <script type="text/javascript" src="./alwaysOpen.js"></script>
+    <script type="text/javascript" src="./alwaysopen.js"></script>
   </body>
   </html>

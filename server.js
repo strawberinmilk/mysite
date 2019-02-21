@@ -5,7 +5,7 @@ let server = http.createServer(function(request, response) {
   const URL = request.url.toLowerCase()
   console.log(URL)
   let data
-  if(URL.match(/jquery\.js/gi)){
+  if(URL.match(/.*jquery\.js$/gi)){
     data = fs.readFileSync("./jquery.js","utf8")
 //}else if(){
   }else{
