@@ -8,11 +8,13 @@ let todayDia
 let nextTrain
 let interval
 let today //true:holiday,false:weekday
+let debugTime
+//debugTime = "Mar 11 2019 03:00:00 GMT+0900 (JST)"
 
 const setup = ()=>{
   clearInterval(interval)
   nextTrain = {"up":0,"down":0}
-  let nowTime = new Date
+  let nowTime = debugTime?new Date(debugTime):new Date()
   let day = nowTime.getDay()
   if(nowTime.getHours()<3){
     if(day==0) day = 7
@@ -23,7 +25,7 @@ const setup = ()=>{
   }else{
     todayDia = weekday
   }
-  if(today===null) if(1<=day && day<=5){
+  if(today===undefined) if(1<=day && day<=5){
     todayDia = weekday
     today = false
   }else{
@@ -33,7 +35,7 @@ const setup = ()=>{
   $("#today").text(`本日は${today?"休日":"平日"}ダイヤです`)
   intervalFunction()
   //1分ごとに繰り返し
-  let nextFindTime = new Date
+  let nextFindTime = debugTime?new Date(debugTime):new Date()
   nextFindTime.setMinutes(nextFindTime.getMinutes()+1)
   nextFindTime.setSeconds(1)
   nextFindTime.setMilliseconds(0)
@@ -44,21 +46,23 @@ const setup = ()=>{
     },60000)
   },nextFindTime.getTime()-nowTime.getTime())
   //明日3時に再度セットアップ
-  let nextSetupTime = new Date
+  today = undefined
+  let nextSetupTime = debugTime?new Date(debugTime):new Date()
   nextSetupTime.setDate(nextSetupTime.getDate()+1)
   nextSetupTime.setHours(3)
   nextSetupTime.setMinutes(0)
   nextSetupTime.setSeconds(0)
   nextSetupTime.setMilliseconds(0)
   setTimeout(()=>{
+    console.log(nextSetupTime.getTime()-nowTime.getTime())
     setup()
   },nextSetupTime.getTime()-nowTime.getTime())
 }
 const intervalFunction = ()=>{
   findNextTrain("up")
   findNextTrain("down")
-  console.log(todayDia.up[nextTrain.up])
-  console.log(todayDia.down[nextTrain.down])
+//  console.log(todayDia.up[nextTrain.up])
+//  console.log(todayDia.down[nextTrain.down])
   $(".serviceUp").each((i,data)=>{
     if(!todayDia.up[nextTrain.up+i])return false
     $(data).text(todayDia.up[nextTrain.up+i].service)
@@ -113,11 +117,11 @@ const findNextTrain = (going)=>{
     if(!todayDia[going][nextTrain[going]])break
     let tmp = todayDia[going][nextTrain[going]].time.split(":")
     tmp = {hours:tmp[0],minutes:tmp[1]}
-    let scopeTrainTime = new Date
+    let scopeTrainTime = debugTime?new Date(debugTime):new Date()
     if(scopeTrainTime.getHours()<3)scopeTrainTime.setDate(scopeTrainTime.getDate()-1)
     scopeTrainTime.setHours(tmp.hours)
     scopeTrainTime.setMinutes(tmp.minutes)
-    let stationTime = new Date
+    let stationTime = debugTime?new Date(debugTime):new Date()
 //    stationTime.setMinutes(stationTime.getMinutes()+5)
     if(scopeTrainTime.getTime()<stationTime.getTime()){
       nextTrain[going]++
@@ -135,7 +139,7 @@ const addZero = num=>{
   return (num+"").length===1 ? "0"+num : num
 }
 const clock = ()=>{
-  let nowTime = new Date()
+  let nowTime = debugTime?new Date(debugTime):new Date()
   $("#clockYear").text(nowTime.getFullYear())
   $("#clockMonth").text(addZero(nowTime.getMonth()+1))
   $("#clockDate").text(addZero(nowTime.getDate()))
@@ -145,7 +149,7 @@ const clock = ()=>{
 }
 const setClock = ()=>{
   clock()
-  let nowTime = new Date()
+  let nowTime = debugTime?new Date(debugTime):new Date()
   setTimeout(()=>{
     setInterval(()=>{
       clock()
