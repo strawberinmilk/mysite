@@ -10,7 +10,7 @@ let interval
 let today //true:holiday,false:weekday
 let debugTime
 
-//debugTime = "Mar 11 2019 02:59:50 GMT+0900 (JST)"
+//debugTime = "Mar 11 2019 00:20:50 GMT+0900 (JST)"
 //setInterval(()=>{
 //  let a = new Date(debugTime)
 //  a.setSeconds(a.getSeconds()+1)
@@ -65,6 +65,10 @@ const setup = ()=>{
   },nextSetupTime.getTime()-nowTime.getTime())
 }
 const intervalFunction = ()=>{
+  $(".display").each((i,data)=>{
+    $(data).css("background-color","black")
+    $(data).text("")
+  })
   findNextTrain("up")
   findNextTrain("down")
 //  console.log(todayDia.up[nextTrain.up])
