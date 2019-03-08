@@ -9,9 +9,16 @@ let nextTrain
 let interval
 let today //true:holiday,false:weekday
 let debugTime
-//debugTime = "Mar 11 2019 03:00:00 GMT+0900 (JST)"
+
+//debugTime = "Mar 11 2019 02:59:50 GMT+0900 (JST)"
+//setInterval(()=>{
+//  let a = new Date(debugTime)
+//  a.setSeconds(a.getSeconds()+1)
+//  debugTime = a.toString()
+//},1000)
 
 const setup = ()=>{
+  console.log("setup")
   clearInterval(interval)
   nextTrain = {"up":0,"down":0}
   let nowTime = debugTime?new Date(debugTime):new Date()
@@ -46,15 +53,14 @@ const setup = ()=>{
     },60000)
   },nextFindTime.getTime()-nowTime.getTime())
   //明日3時に再度セットアップ
-  today = undefined
   let nextSetupTime = debugTime?new Date(debugTime):new Date()
-  nextSetupTime.setDate(nextSetupTime.getDate()+1)
+  if(2<nowTime.getHours())nextSetupTime.setDate(nextSetupTime.getDate()+1)
   nextSetupTime.setHours(3)
   nextSetupTime.setMinutes(0)
   nextSetupTime.setSeconds(0)
   nextSetupTime.setMilliseconds(0)
   setTimeout(()=>{
-    console.log(nextSetupTime.getTime()-nowTime.getTime())
+    today = undefined
     setup()
   },nextSetupTime.getTime()-nowTime.getTime())
 }
