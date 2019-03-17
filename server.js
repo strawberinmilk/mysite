@@ -13,7 +13,8 @@ let server = http.createServer((request, response) => {
 //}else if(){
   }else{
     try{
-      data = fs.readFileSync(`./views/${URL}`,"utf8")
+//      data = fs.readFileSync(`./views/${URL}`,"utf8")
+      data = fs.readFileSync(`./views/${URL}`)
     }catch(e){
       response.writeHead(404, {"Content-Type": "text/html"})
       response.end(fs.readFileSync("./views/error/404.html"))
@@ -21,11 +22,14 @@ let server = http.createServer((request, response) => {
     }
   }
   //ステータスコード
-  if(URL.match(/.+\.html/)){
-    response.writeHead(200, {"Content-Type":"text/html"})
-  }else if(URL.match(/.+\.js/)){
-    response.writeHead(200, {"Content-Type":"text/javascript"})
+  if(URL.match(/.+\.html$/)){
+    response.writeHead(200,{"Content-Type":"text/html"})
+  }else if(URL.match(/.+\.js$/)){
+    response.writeHead(200,{"Content-Type":"text/javascript"})
+  }else if(URL.match(/.+\.png$/)){
+    response.writeHead(200,{"Content-Type":"image/png"})
   }else{
+
   }
 
   response.write(data)

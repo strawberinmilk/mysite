@@ -10,7 +10,7 @@ let interval
 let today //true:holiday,false:weekday
 let debugTime
 
-//debugTime = "Mar 11 2019 00:20:50 GMT+0900 (JST)"
+//debugTime = "Mar 11 2019 11:59:55 GMT+0900 (JST)"
 //setInterval(()=>{
 //  let a = new Date(debugTime)
 //  a.setSeconds(a.getSeconds()+1)
@@ -167,3 +167,14 @@ const setClock = ()=>{
   },1000-nowTime.getMilliseconds())
 }
 setClock()
+
+let audio = new Audio()
+audio.src = "./chime.mp3"
+setInterval(()=>{
+  let nowTime = debugTime?new Date(debugTime):new Date()
+  if((nowTime.getHours()===12||nowTime.getHours()===0) && nowTime.getMinutes()===0 && nowTime.getSeconds()===0){
+    if(!$("#muteCheckBox:checked").val()){
+      audio.play()
+    }
+  }
+},1000)
