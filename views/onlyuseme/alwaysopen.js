@@ -18,7 +18,6 @@ let debugTime
 //},1000)
 
 const setup = ()=>{
-  console.log("setup")
   clearInterval(interval)
   nextTrain = {"up":0,"down":0}
   let nowTime = debugTime?new Date(debugTime):new Date()
@@ -178,3 +177,27 @@ setInterval(()=>{
     }
   }
 },1000)
+
+
+
+$("#settingOpen").click(function(){
+  $("#popupArea").toggle(200)
+})
+$("#popupCloseButton").click(function(){
+  $("#popupArea").toggle(200)
+})
+
+let intervalSystem = null
+$("#intervalSystemButton").click(function(){
+  clearInterval(intervalSystem)
+  if($("#intervalSystemButton").val()==="stop"){
+    $("#intervalSystemButton").val("go")
+    return
+  }else{
+    let time = $("#intervalSystemNumberMin").val()*1000*60+$("#intervalSystemNumberSec").val()*1000
+    $("#intervalSystemButton").val("stop")
+    intervalSystem = setInterval(()=>{
+    audio.play()
+    },time)
+  }
+})

@@ -45,3 +45,27 @@
 #clockTime{
   font-size: 90px;
 }
+
+#popupArea{
+  position: absolute;
+  top:0px;
+  left: 0px;
+  height:100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+  text-align: center;
+  display: none;
+}
+
+.popupBack{
+  position: relative;
+  background-color: white;
+  margin: 20px;
+  text-align: center;
+  width:50%;
+  left:25%;
+}
+
+.intervalSystemNumber{
+  width:40px;
+}

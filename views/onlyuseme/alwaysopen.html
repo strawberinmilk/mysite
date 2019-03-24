@@ -55,6 +55,7 @@
         <span id="clockMinutes">-</span>:
         <span id="clockSeconds">-</span>
       </span>
+
       <p id="today"></p>
     </div>
     <div class="keikyuTwitter floatL">
@@ -62,7 +63,22 @@
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
     </div>
     
-    <input id="muteCheckBox" type="checkbox">mute
+    <div id="settingOpen">⚙️</div>
+    <div id="popupArea">
+      <div class="popupBack">
+        <input id="muteCheckBox" type="checkbox">mute
+      </div>
+      <div class="popupBack">
+        <span id="intervalSystemText">Interval</span>
+        <input id="intervalSystemNumberMin" class="intervalSystemNumber" type="number">分
+        <input id="intervalSystemNumberSec" class="intervalSystemNumber" type="number">秒
+        <input id="intervalSystemButton" type="button" value="go">
+      </div>
+      <div class="popupBack">
+        <div id="popupCloseButton">close</div>
+      </div>
+    </div>
+
     
     <script type="text/javascript" src="./jquery.js"></script>
     <script type="text/javascript" src="./alwaysopen.js"></script>
