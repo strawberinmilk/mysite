@@ -33,7 +33,7 @@ $("#headerContent").hover(function(d){
   $(d.currentTarget)[0].childNodes[1].remove()
 })
 $("#headerAya")
-$("#headerAboutme")
+$("#headerAbout")
 
 $("#headerTop").click(function(){
   window.location.href = "/top/index.html"
@@ -45,14 +45,15 @@ $("#headerContent").click(function(){
 
 })
 $("#headerAya").click(function(){
-
+  window.location.href = "/lightpage/komichiayabot.html"
 })
-$("#headerAboutme").click(function(){
+$("#headerAbout").click(function(){
+  window.location.href = "/lightpage/about.html"
 })
 /*
 $("#headerTop")
 $("#headerPortfolio")
 $("#headerContent")
 $("#headerAya")
-$("#headerAboutme")
+$("#headerAbout")
 */
