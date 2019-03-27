@@ -1,0 +1,42 @@
+body{
+  font-family: 'Noto Serif SC', serif;
+}
+@keyframes mask{
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+#mask{
+  opacity: 1;
+  animation-name: mask;
+  animation-fill-mode: forwards;
+  animation-duration: 2s;
+  animation-delay: 0s;
+}
+#header{
+  background-color: rgba(0, 63, 108, 0.5);
+  border-radius:15px;
+
+}
+.headerButton{
+  position: relative;
+  font-size:20px;
+  height:75px;
+  opacity: 1;
+  transition: .5s;
+  margin:0px;
+  border-radius:15px;
+}
+.headerButton:hover{
+  background-color: rgba(0, 149, 255, 0.5)
+}
+.headerButtonText{
+  position: relative;
+  color: black;
+  bottom: -25px;
+  height:50px;
+  width:100%;
+}

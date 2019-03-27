@@ -1,0 +1,331 @@
+@keyframes opacity{
+  0%{
+    opacity:0;
+  }
+  10%{
+    opacity:0.5;
+  }
+  90%{
+    opacity:0.5;
+  }
+  100%{
+    opacity:0;
+  }
+}
+
+@keyframes x1 {
+  0% {
+    left : 0%;
+  }
+  100% {
+    left : 100%
+  }
+}
+@keyframes x2 {
+  0% {
+    left : 100%;
+  }
+  100% {
+    left : 0%
+  }
+}
+@keyframes x3 {
+  0% {
+    left : 0%;
+  }
+  50% {
+    left : 100%;
+  }
+  100% {
+    left : 0%
+  }
+}
+@keyframes x4 {
+  0% {
+    left : 100%;
+  }
+  50% {
+    left : 0%;
+  }
+  100% {
+    left : 100%
+  }
+}
+
+@keyframes x5 {
+  0% {
+    left : 20%;
+  }
+  70% {
+    left : 100%;
+  }
+  100% {
+    left : 50%
+  }
+}
+@keyframes x6 {
+  0% {
+    left : 70%;
+  }
+  50% {
+    left : 10%;
+  }
+  100% {
+    left : 90%
+  }
+}
+@keyframes x7 {
+  0% {
+    left : 90%;
+  }
+  50% {
+    left : 20%;
+  }
+  100% {
+    left : 70%
+  }
+}
+@keyframes x8 {
+  0% {
+    left : 50%;
+  }
+  50% {
+    left : 10%;
+  }
+  100% {
+    left : 20%
+  }
+}
+@keyframes x9 {
+  0% {
+    left : 70%;
+  }
+  50% {
+    left : 20%;
+  }
+  100% {
+    left : 100%
+  }
+}
+
+@keyframes y1 {
+  0% {
+    top : 0%;
+  }
+  50% {
+    top : 90%
+  }
+  100% {
+    top : 0%
+  }
+}
+@keyframes y2 {
+  0% {
+    top : 90%;
+  }
+  50% {
+    top : 0%;
+  }
+  100% {
+    top : 90%
+  }
+}
+@keyframes y3 {
+  0% {
+    top : 80%;
+  }
+  50% {
+    top : 20%;
+  }
+  100% {
+    top : 90%
+  }
+}
+@keyframes y4 {
+  0% {
+    top : 100%;
+  }
+  50% {
+    top : 80%;
+  }
+  100% {
+    top : 40%
+  }
+}
+@keyframes y5 {
+  0% {
+    top : 70%;
+  }
+  50% {
+    top : 0%;
+  }
+  100% {
+    top : 40%
+  }
+}
+@keyframes y6 {
+  0% {
+    top : 40%;
+  }
+  50% {
+    top : 0%;
+  }
+  100% {
+    top : 90%
+  }
+}
+@keyframes y7 {
+  0% {
+    top : 60%;
+  }
+  50% {
+    top : 0%;
+  }
+  100% {
+    top : 10%
+  }
+}
+@keyframes y8 {
+  0% {
+    top : 60%;
+  }
+  50% {
+    top : 100%;
+  }
+  100% {
+    top : 30%
+  }
+}
+@keyframes y9 {
+  0% {
+    top : 20%;
+  }
+  50% {
+    top : 90%;
+  }
+  100% {
+    top : 30%
+  }
+}
+.backMoveBox{
+  position: fixed;
+  z-index:-9999;
+  height: 100px;
+  width: 100px;
+  top: 0px;
+  bottom: 0px;
+  left : 0px;
+  right: 0px;
+  opacity:0.5;
+  animation-iteration-count: infinite;
+}
+
+#backMoveBox0{
+  background-color: magenta;
+  animation-name: opacity,x1,y7;
+  animation-duration: 19s;
+}
+#backMoveBox1{
+  background-color: green;
+  animation-name: opacity,x2,y8;
+  animation-duration: 18s;
+}
+#backMoveBox2{
+  background-color: aqua;
+  animation-name: opacity,x3,y9;
+  animation-duration: 17s;
+}
+#backMoveBox3{
+  background-color: gray;
+  animation-name: opacity,x4,y1;
+  animation-duration: 16s;
+}
+#backMoveBox4{
+  background-color: orange;
+  animation-name: opacity,x5,y2;
+  animation-duration: 15s;
+}
+#backMoveBox5{
+  background-color: lawngreen;
+  animation-name: opacity,x6,y3;
+  animation-duration: 14s;
+}
+#backMoveBox6{
+  background-color: black;
+  animation-name: opacity,x7,y4;
+  animation-duration: 13s;
+}
+#backMoveBox7{
+  background-color: white;
+  animation-name: opacity,x8,y5;
+  animation-duration: 12s;
+}
+#backMoveBox8{
+  background-color: red;
+  animation-name: opacity,x9,y6;
+  animation-duration: 11s;
+}
+#backMoveBox9{
+  background-color: pink;
+  animation-name: opacity,x1,y7;
+  animation-duration: 10s;
+}
+#backMoveBox10{
+  background-color: blue;
+  animation-name: opacity,x2,y7;
+  animation-duration: 19s;
+}
+#backMoveBox11{
+  background-color: purple;
+  animation-name: opacity,x3,y8;
+  animation-duration: 18s;
+}
+#backMoveBox12{
+  background-color: magenta;
+  animation-name: opacity,x4,y9;
+  animation-duration: 17s;
+}
+#backMoveBox13{
+  background-color: mediumorchid;
+  animation-name: opacity,x5,y1;
+  animation-duration: 16s;
+}
+#backMoveBox14{
+  background-color: skyblue;
+  animation-name: opacity,x6,y2;
+  animation-duration: 15s;
+}
+#backMoveBox15{
+  background-color: palegreen;
+  animation-name: opacity,x7,y3;
+  animation-duration: 14s;
+}
+#backMoveBox16{
+  background-color: aquamarine;
+  animation-name: opacity,x8,y4;
+  animation-duration: 13s;
+}
+#backMoveBox17{
+  background-color: firebrick;
+  animation-name: opacity,x9,y5;
+  animation-duration: 12s;
+}
+#backMoveBox18{
+  background-color: wheat;
+  animation-name: opacity,x1,y6;
+  animation-duration: 11s;
+}
+#backMoveBox19{
+  background-color: olive;
+  animation-name: opacity,x2,y5;
+  animation-duration: 10s;
+}
+/*-------------------------------------------------------*/
+@keyframes layoutMain {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}

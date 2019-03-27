@@ -1,0 +1,100 @@
+:root{
+  --delay:0s
+}
+
+.openeffectTop{
+  position: fixed;
+  z-index:9999;
+  height: 50%;
+  width: 50%;
+  /*
+  top: 0px;
+  bottom: 0px;
+  left : 0px;
+  right: 0px;
+  */
+  /*animation-iteration-count: infinite;*/
+  animation-fill-mode: forwards;
+  animation-duration: 2s;
+  animation-delay: var(--delay);
+}
+@keyframes top1 {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(-90deg);
+  }
+}
+#openeffectTop1{
+  background-color:magenta;
+  bottom: 50%;
+  right: 50%;
+  animation-name: top1;
+  transform-origin: 0% 100%;
+}
+@keyframes top2 {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(90deg);
+  }
+}
+#openeffectTop2{
+  background-color:blue;
+  top: 50%;
+  right: 50%;
+  animation-name: top2;
+  transform-origin: 0% 0%;
+}
+@keyframes top3 {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(90deg);
+  }
+}
+#openeffectTop3{
+  background-color:orange;
+  bottom: 50%;
+  left : 50%;
+  animation-name: top3;
+  transform-origin: 100% 100%;
+}
+@keyframes top4 {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(-90deg);
+  }
+}
+#openeffectTop4{
+  background-color:green;
+  top: 50%;
+  left : 50%;
+  animation-name: top4;
+  transform-origin: 100% 0%;
+}
+
+
+
+
+
+@keyframes mask{
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+#mask{
+  opacity: 1;
+  animation-name: mask;
+  animation-fill-mode: forwards;
+  animation-duration: 2s;
+  animation-delay: var(--delay);
+}

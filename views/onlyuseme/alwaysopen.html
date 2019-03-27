@@ -1,86 +1,85 @@
-  <!DOCTYPE html>
-  <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>alwaysOpen</title>
-    <link rel="stylesheet" type="text/css" href="alwaysopen.css">
-  </head>
-  <body>
-    <div class="station floatL">
-      <div class="stationUp">
-        <div>品川・新橋・日本橋 方面</div><br>
-        <div class="service floatL">
-          <div class="serviceUp display"></div><br>
-          <div class="serviceUp display"></div><br>
-          <div class="serviceUp display"></div><br>
-        </div>
-        <div class="laststop floatL">
-          <div class="laststopUp display"></div><br>
-          <div class="laststopUp display"></div><br>
-          <div class="laststopUp display"></div><br>
-        </div>
-        <div class="time floatL">
-          <div class="timeUp display"></div><br>
-          <div class="timeUp display"></div><br>
-          <div class="timeUp display"></div><br>
-        </div>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>alwaysOpen</title>
+  <link rel="stylesheet" type="text/css" href="alwaysopen.css">
+</head>
+<body>
+  <div class="station floatL">
+    <div class="stationUp">
+      <div>品川・新橋・日本橋 方面</div><br>
+      <div class="service floatL">
+        <div class="serviceUp display"></div><br>
+        <div class="serviceUp display"></div><br>
+        <div class="serviceUp display"></div><br>
       </div>
-      <div class="stationDown">
-        <div>横浜・浦賀・三崎口 方面</div><br>
-        <div class="service floatL">
-          <div class="serviceDown display"></div><br>
-          <div class="serviceDown display"></div><br>
-          <div class="serviceDown display"></div><br>
-        </div>
-        <div class="laststop floatL">
-          <div class="laststopDown display"></div><br>
-          <div class="laststopDown display"></div><br>
-          <div class="laststopDown display"></div><br>
-        </div>
-        <div class="time floatL">
-          <div class="timeDown display"></div><br>
-          <div class="timeDown display"></div><br>
-          <div class="timeDown display"></div><br>
-        </div>
+      <div class="laststop floatL">
+        <div class="laststopUp display"></div><br>
+        <div class="laststopUp display"></div><br>
+        <div class="laststopUp display"></div><br>
+      </div>
+      <div class="time floatL">
+        <div class="timeUp display"></div><br>
+        <div class="timeUp display"></div><br>
+        <div class="timeUp display"></div><br>
       </div>
     </div>
-    <div class="clock floatL  ">
-      <span id="clockYear">-</span>/
-      <span id="clockMonth">-</span>/
-      <span id="clockDate">-</span>
-      <span id="clockTime">
-        <span id="clockHours">-</span>:
-        <span id="clockMinutes">-</span>:
-        <span id="clockSeconds">-</span>
-      </span>
-
-      <p id="today"></p>
+    <div class="stationDown">
+      <div>横浜・浦賀・三崎口 方面</div><br>
+      <div class="service floatL">
+        <div class="serviceDown display"></div><br>
+        <div class="serviceDown display"></div><br>
+        <div class="serviceDown display"></div><br>
+      </div>
+      <div class="laststop floatL">
+        <div class="laststopDown display"></div><br>
+        <div class="laststopDown display"></div><br>
+        <div class="laststopDown display"></div><br>
+      </div>
+      <div class="time floatL">
+        <div class="timeDown display"></div><br>
+        <div class="timeDown display"></div><br>
+        <div class="timeDown display"></div><br>
+      </div>
     </div>
-    <div class="keikyuTwitter floatL">
-      <a class="twitter-timeline" href="https://twitter.com/keikyu_official?ref_src=twsrc%5Etfw">Tweets by keikyu_official</a>
-      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+  </div>
+  <div class="clock floatL  ">
+    <span id="clockYear">-</span>/
+    <span id="clockMonth">-</span>/
+    <span id="clockDate">-</span>
+    <span id="clockTime">
+      <span id="clockHours">-</span>:
+      <span id="clockMinutes">-</span>:
+      <span id="clockSeconds">-</span>
+    </span>
+    <p id="today"></p>
+  </div>
+  <div class="keikyuTwitter floatL">
+    <a class="twitter-timeline" href="https://twitter.com/keikyu_official?ref_src=twsrc%5Etfw">Tweets by keikyu_official</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+  </div>
+  
+  <div id="settingOpen">⚙️</div>
+  <div id="popupArea">
+    <div class="popupBack">
+      <input id="muteCheckBox" type="checkbox">mute
     </div>
+    <div class="popupBack">
+      <span id="intervalSystemText">Interval</span>
+      <input id="intervalSystemNumberMin" class="intervalSystemNumber" type="number">分
+      <input id="intervalSystemNumberSec" class="intervalSystemNumber" type="number">秒
+      <input id="intervalSystemButton" type="button" value="go">
+    </div>
+    <div class="popupBack">
+      <div id="popupCloseButton">close</div>
+    </div>
+  </div>
+  <script type="text/javascript" src="./jquery.js"></script>
+  <script type="text/javascript" src="./alwaysopen.js"></script>
+  
     
-    <div id="settingOpen">⚙️</div>
-    <div id="popupArea">
-      <div class="popupBack">
-        <input id="muteCheckBox" type="checkbox">mute
-      </div>
-      <div class="popupBack">
-        <span id="intervalSystemText">Interval</span>
-        <input id="intervalSystemNumberMin" class="intervalSystemNumber" type="number">分
-        <input id="intervalSystemNumberSec" class="intervalSystemNumber" type="number">秒
-        <input id="intervalSystemButton" type="button" value="go">
-      </div>
-      <div class="popupBack">
-        <div id="popupCloseButton">close</div>
-      </div>
-    </div>
-
-    
-    <script type="text/javascript" src="./jquery.js"></script>
-    <script type="text/javascript" src="./alwaysopen.js"></script>
-  </body>
-  </html>
+</body>
+</html>
