@@ -1,5 +1,5 @@
 body{
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Noto Serif JP', serif;
 }
 @keyframes mask{
   0% {
@@ -19,7 +19,6 @@ body{
 #header{
   background-color: rgba(0, 63, 108, 0.5);
   border-radius:15px;
-
 }
 .headerButton{
   position: relative;
@@ -39,4 +38,10 @@ body{
   bottom: -25px;
   height:50px;
   width:100%;
+}
+
+h3{
+  background: rgba(60, 0, 255, 0.2);
+  padding: 5px 2px;
+  border-left: double 1px;
 }

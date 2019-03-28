@@ -7,8 +7,15 @@
   <title>Document</title>
 </head>
 <body>
-  <p>404 not found</p>
-  <p>指定されたページが存在しません</p>
-  <p>ファイルが削除されたかURLが間違っている可能性があります</p>
+  <div id="mask" style="background-color:white;position:fixed;height:100%;width:100%;top:0px;left:0px;z-index:9999;"></div>
+  <div id="main">
+    <p>404 not found</p>
+    <p>指定されたページが存在しません</p>
+    <p>ファイルが削除されたかURLが間違っている可能性があります</p>
+    <a href="/top/index.html">トップへ戻る</a>
+  </div>
+  <script type="text/javascript" src="./jquery.js"></script>
+  <script type="text/javascript" src="./layoutget.js"></script>
+  <script type="text/javascript" src="./backmoveboxget.js"></script>
 </body>
 </html>
