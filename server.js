@@ -13,6 +13,14 @@ const log = (URL,statusCode,headers)=>{
 
 let server = http.createServer((request, response) => {
   let URL = request.url.toLowerCase()
+  if(URL === "/"){
+    response.writeHead(302, {
+      "Location": "/top/index.html"
+    });
+    response.end();
+    log(URL,302,request.headers)
+    return
+  }
   request.headers.time = new Date
   let data
 
