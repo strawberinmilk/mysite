@@ -64,7 +64,7 @@ const server = http.createServer((request, response) => {
   if(!data){
     for(let i of controllerFileList){
       i = i.replace(/\.js/,"")
-      if((!URL.match(/js|css|png/))&&URL.match(i)){
+      if((!URL.match(/js|css|png|jpg/))&&URL.match(i)){
 //        controllerData = controllerList[i]({"URL":URL})
         console.log("awaitするよん")
         data = controllerList[i]({"URL":URL})
@@ -101,6 +101,8 @@ const server = http.createServer((request, response) => {
     response.writeHead(200,{"Content-Type":"text/css"})
   }else if(URL.match(/.+\.png$/)){
     response.writeHead(200,{"Content-Type":"image/png"})
+  }else if(URL.match(/.+\.jpg$/)){
+    response.writeHead(200,{"Content-Type":"image/jpg"})
   }else if(URL.match(/.+\.mp3$/)){
     response.writeHead(200,{"Content-Type":"audio/mpeg"})
   }else{
