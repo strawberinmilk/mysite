@@ -1,6 +1,9 @@
 body{
   font-family: 'Noto Serif JP', serif;
 }
+img{
+  width: 100%;
+}
 @keyframes mask{
   0% {
     opacity: 1;
@@ -40,6 +43,11 @@ body{
   width:100%;
 }
 
+h1{
+  background: rgba(0, 255, 0, 0.2);
+  padding: 5px 2px;
+  border-left: double 1px;
+}
 h3{
   background: rgba(60, 0, 255, 0.2);
   padding: 5px 2px;

@@ -22,11 +22,6 @@ $(".headerButton").hover(function(d){
 },function(d){
 })
 $("#headerTop")
-$("#headerPortfolio").hover(function(d){
-  $(d.currentTarget).append("<span>comming soon...</span>")
-},function(d){
-  $(d.currentTarget)[0].childNodes[1].remove()
-})
 $("#headerContent").hover(function(d){
   $(d.currentTarget).append("<span>comming soon...</span>")
 },function(d){
@@ -39,7 +34,7 @@ $("#headerTop").click(function(){
   window.location.href = "/top/index.html"
 })
 $("#headerPortfolio").click(function(){
-
+  window.location.href = "/portfolio/index.html"
 })
 $("#headerContent").click(function(){
 

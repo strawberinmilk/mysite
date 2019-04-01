@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--<link rel="stylesheet" type="text/css" href="index.css">-->
+  <title>komichiayabot</title>
+</head>
+<body>
+  <div id="mask" style="background-color:white;position:fixed;height:100%;width:100%;top:0px;left:0px;z-index:9999;"></div>
+  <div id="main">
+    <h1>このページは仮のものです。URLが変更される可能性があるのでブックマーク等しないようお願いいたします</h1>
+    <h3>小路綾bot</h3>
+    小路綾とは、"きんいろモザイク"という漫画、アニメの登場人物です。
+    その小路綾の発言を形態素解析し、マルコフ連鎖により小路綾らしい発言を生成するプログラムです。<br>
+    現在はtwitterに投稿するコードのみ動かしていますが、slackへ投稿するプログラムもgithubに上がっています。<br>
+    twitterでは、10分に一度ランダムに生成したテキストを投稿する機能、リプライを受け取りそのテキストを形態素解析し、
+    動詞等を抜き取りその単語から開始される文章を生成し擬似的に会話をすることができる機能が搭載されています。<br>
+    精度に関してはいいとは言えないかもしれませんが意図は読み取れる程度の文章は生成できています。
+    <img src="/portfolio/komichiayabot.png">
+    <a href="https://twitter.com/komichiAyaBot" target="_blank">小路綾bot(twitter)</a><br>
+    <a href="https://github.com/rinkei-krt6006/komichiAyaBot" target="_blank">github</a><br>
+    <a href="/komichiayabot/komichiayabot.html" target="_blank">アニメ好きな方向けに作成した同プログラム紹介ページ</a><br>
+
+    <h3>このページ</h3>
+    自分用の適当なwebアプリが欲しいなぁ...とhttpモジュールの最小限の機能から作り、 
+    cssを書いてきたらだんだんイメージが湧いて来て背景の動く四角のやつを作り、 
+    楽しくなってきてそのままオフ会も近いしと自己紹介と小路綾botの紹介くらいできるものを
+    さらにここのportfolioをと、ほぼ突貫工事で作成してきました。<br>
+    expressとか使っても良かったのですが当初はここまで大きくするつもりではなかったので...<br>
+    いい勉強にはなりましたがserver.jsがかなり適当なので直さないとですね<br>
+    でも後ろの動く四角は私にしてはかなりいいデザインになったなぁと思っています。<br>
+    <a href="https://github.com/rinkei-krt6006/mysite" target="_blank">github</a><br>
+
+    <h3>自宅電灯制御システム</h3>
+    自宅の廊下の天井にテープLEDを引き、それをraspberrypiのGPIOからトランジスタを介して操作しています。<br>
+    また玄関に磁石スイッチを設置し、ドアの開閉を検知しそれをトリガーに電気がつくようになっています。<br>
+    またraspberrypiにはhttpリクエストから操作できるようなプログラムが入っており、wifiネットワーク下であればブラウザから電灯が操作できます。<br>
+    また下記のslackbotからhttpリクエストを送ることにより外部からでも操作ができます。<br>
+    そのslackbotをiftttによりgoogleHomeから、つまり声で操作することもできます。<br>
+    <blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">googleHomeと玄関の開扉による電灯制御 <a href="https://t.co/Tz46WD6ZSr">pic.twitter.com/Tz46WD6ZSr</a></p>&mdash; /**ろくてらばいと*/ (@6terabyte) <a href="https://twitter.com/6terabyte/status/1112689782381895680?ref_src=twsrc%5Etfw">2019年4月1日</a></blockquote>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <a href="https://github.com/rinkei-krt6006/home-raspberrypi" target="_blank">github</a><br>
+    
+    <h3>mybot</h3>
+    自分で管理しているslackワークスペースで動かしているbotです。自分以外が利用することは全く想定していないシステムです。<br>
+    先述の電灯制御関連のシステム、ゴミの日等を知らせる機能、明日の天気をAPIから持ってくる、起床入眠時間の記録、TODOリスト等、
+    様々な機能を実装してありますが、自分で使うことに特化したコードなので特にtwitter等から利用出るようにはなっていません。<br>
+    <a href="https://github.com/rinkei-krt6006/mybot" target="_blank">github</a><br>
+    
+    <h3>物理回路によるNOA/OR/AND/NAND</h3>
+    タイトルの通りです。スイッチの入力に応じてLEDが変化します<br>
+    <blockquote class="twitter-tweet" data-lang="ja"><p lang="en" dir="ltr">NOR/OR/AND/NAND <a href="https://t.co/rojpBrZYWG">pic.twitter.com/rojpBrZYWG</a></p>&mdash; /**ろくてらばいと*/ (@6terabyte) <a href="https://twitter.com/6terabyte/status/1089692817817927680?ref_src=twsrc%5Etfw">2019年1月28日</a></blockquote>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+    <h3>androidノートPC</h3>
+    余っていたノートPCでandroidX86を試してみました。<br>
+    インストールはUSBブートができないことに気付けず躓きましたがCDブートに切り替えてからはスムーズに行えました。<br>
+    なお使い心地はバグが多いことを除いても非常に使いにくかったです。androidはタッチモニターでないと快適には使えないですね...<br>
+    <img src="/portfolio/androidPC.jpg">
+    
+    <h3>othello</h3>
+    ただのオセロです<br>
+    なんとなく作ってみたくなって作りました。<br>
+    特に追加要素等もなく本当にシンプルなオセロに仕上がっています。
+    <a href="https://github.com/rinkei-krt6006/othello">github</a>
+
+    <h3>tetris</h3>
+    ただのテトリスです<br>
+    入院中の暇つぶしに作りました<br>
+    オリジナル要素として自動停止するかもしれないしあるいは積まれたブロックに突っ込んでくるかもしれないというブロックが追加されています。<br>
+    <a href="https://github.com/rinkei-krt6006/tetris">github</a>
+  </div>
+  <script type="text/javascript" src="./jquery.js"></script>
+  <script type="text/javascript" src="./layoutget.js"></script>
+  <script type="text/javascript" src="./backmoveboxget.js"></script>
+<!--  <script type="text/javascript" src="./index.js"></script>-->
+</body>
+</html>
