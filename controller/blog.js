@@ -1,3 +1,4 @@
+/*
 /////////////////////////////////////////////////////
 //モジュール読み込み
 const nedb = require("nedb")
@@ -96,3 +97,4 @@ module.exports = async (request) =>{
     //<script type="text/javascript" src="./index.js"></script>`
   return returnHTML
 }
+*/
