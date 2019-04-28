@@ -2,6 +2,11 @@
 //モジュールの設定
 const http = require("http")
 const fs = require("fs")
+const nedb = require("nedb")
+let db = new nedb({ 
+    filename: './nedb.db',
+    autoload: true
+})
 //////////////////////////////////////////////////////////////////
 //specialFileの取得と更新時のリロード
 let specialFileList = fs.readdirSync('./special/')
@@ -23,9 +28,14 @@ for(let i of controllerFileList){
 }
 fs.watch('./controller/',(event,filename)=>{
   console.log("controller file reload")
+  console.log(process.platform)
   controllerFileList = fs.readdirSync('./controller/')
   filename = filename.replace(/\.js/gi,"")
-  delete require.cache[`${__dirname}/controller/${filename}.js`]//これwindowsで動く？
+  if(process.platform==='win32'){
+    delete require.cache[`${__dirname}\\controller\\${filename}.js`]
+  }else{
+    delete require.cache[`${__dirname}/controller/${filename}.js`]
+  }
   controllerList[filename] = require(`./controller/${filename}.js`)
 })
 //////////////////////////////////////////////////////////////////
@@ -39,7 +49,7 @@ const log = (URL,statusCode,headers)=>{
 //response.end()の際は
 //log(URL,statusCode,request.headers)
 //を呼ぶこと
-const server = http.createServer((request, response) => {
+const server =  http.createServer(async(request, response) => {
   let URL = request.url.toLowerCase()
   let data
   //リダイレクト
@@ -59,17 +69,14 @@ const server = http.createServer((request, response) => {
       break
     }
   }
-　 //controller
-//  let controllerData
+  //controller
+  //let controllerData
   if(!data){
     for(let i of controllerFileList){
       i = i.replace(/\.js/,"")
       if((!URL.match(/js|css|png|jpg/))&&URL.match(i)){
 //        controllerData = controllerList[i]({"URL":URL})
-        console.log("awaitするよん")
-        data = controllerList[i]({"URL":URL})
-        console.log("awaitしたよん")
-        console.log(data + "----------------------------------------")
+        data = await controllerList[i]({"URL":URL})
         break
       }
     }
@@ -116,3 +123,72 @@ const server = http.createServer((request, response) => {
 })
 
 server.listen(7080)
+
+
+const findSort = () => new Promise(resolve =>{
+  db.find({}).sort({id:-1}).exec((err, docs)=>{
+    resolve(docs)
+  })
+})
+const managerServer =  http.createServer(async(request, response) => {
+  let URL = request.url.toLowerCase()
+  console.log(URL)
+  let data
+  if(request.method === 'GET') {
+  }else if(request.method === 'POST') {
+    if(URL==='/manager/add'){
+      let d = ''
+      request.on('data', function(chunk) {
+      d += chunk
+      }).on('end',async function() {
+        d = d.replace(/\+/gi,' ')
+        response.end()
+        let maxid = await findSort()
+        maxid = maxid[0].id
+        maxid++
+        d = d.split('&')
+        let time = new Date
+        time = time.toLocaleString()
+        let doc = {
+          "id":maxid,
+          "time":time,
+        }
+        for(i of d){
+          let key = decodeURIComponent(i.match(/^.+\=/gi)[0].replace(/\=$/,''))
+          let text = decodeURIComponent(i.match(/\=.+$/gi)[0].replace(/^\=/,''))
+          doc[key] = text
+        }
+        db.insert(doc)
+      })
+    }else if(URL==='/manager/upload'){
+      let d
+      let dn = ''
+      request.on('data', function(chunk) {
+        d = chunk
+        dn += chunk
+      }).on('end',async function() {
+        dn = dn.replace(/^file\=/,'')
+        console.log(d)
+        console.log(dn)
+        fs.writeFileSync(`./views/blog/${dn}`,d)
+      })
+    }
+    
+  }
+  let resData
+  try{
+    if(URL.match(/\.html$/gi)){
+      resData = fs.readFileSync(`./manager/${URL}`,"utf8")
+    }else{
+      resData = fs.readFileSync(`./manager/${URL}`)
+    }
+  }catch(e){
+    response.writeHead(404, {"Content-Type": "text/html"})
+    response.end('404')
+    return
+  }
+  response.writeHead(200, {"Content-Type": "text/html"})
+  response.end(resData)
+})
+
+managerServer.listen(7081)

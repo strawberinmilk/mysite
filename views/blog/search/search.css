@@ -1,0 +1,19 @@
+
+.magenta{
+  background-color: rgba(255, 0, 242, 0.5)
+
+}
+.blue{
+  background-color: rgba(0, 255, 170, 0.5)
+
+}
+.searchtitle{
+  width:30%;
+}
+.searchtext{
+  width:10%;
+}
+.searchtag{
+  width:30%;
+
+}
