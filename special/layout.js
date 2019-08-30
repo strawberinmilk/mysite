@@ -42,7 +42,7 @@ $("#headerContent").click(function(){
   window.location.href = "/blog/search/"
 })
 $("#headerAya").click(function(){
-  window.location.href = "/lightpage/komichiayabot.html"
+  window.location.href = "/komichiayabot/komichiayabot.html"
 })
 $("#headerAbout").click(function(){
   window.location.href = "/lightpage/about.html"

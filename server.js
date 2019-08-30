@@ -2,12 +2,17 @@
 //モジュールの設定
 const http = require("http")
 const fs = require("fs")
+
+fs.appendFileSync('./nedb.db','','utf8')
+
 const nedb = require("nedb")
 let db = new nedb({ 
-    filename: './nedb.db',
-    autoload: true
+  filename: './nedb.db',
+  autoload: true
 })
+
 //////////////////////////////////////////////////////////////////
+
 //specialFileの取得と更新時のリロード
 let specialFileList = fs.readdirSync('./special/')
 let specialList = {}
@@ -76,7 +81,7 @@ const server =  http.createServer(async(request, response) => {
       i = i.replace(/\.js/,"")
       if((!URL.match(/js|css|png|jpg/))&&URL.match(i)){
 //        controllerData = controllerList[i]({"URL":URL})
-        data = await controllerList[i]({"URL":URL})
+        data = await controllerList[i]({"URL":URL,'db':db})
         break
       }
     }
@@ -87,6 +92,8 @@ const server =  http.createServer(async(request, response) => {
     try{
       if(URL.match(/\.html$/gi)){
         data = fs.readFileSync(`./views/${URL}`,"utf8")
+      }else if(URL.match(/^\/blog\/.+/gi)){
+        data = fs.readFileSync(`./views/blog/file/${URL.replace(/^\/blog\//,'')}`)
       }else{
         data = fs.readFileSync(`./views/${URL}`)
       }
@@ -124,7 +131,8 @@ const server =  http.createServer(async(request, response) => {
 
 server.listen(7080)
 
-
+///////////////////////////////////////////////////////////////
+/*
 const findSort = () => new Promise(resolve =>{
   db.find({}).sort({id:-1}).exec((err, docs)=>{
     resolve(docs)
@@ -192,3 +200,93 @@ const managerServer =  http.createServer(async(request, response) => {
 })
 
 managerServer.listen(7081)
+*/
+///////////////////////////////////////////////////////////////
+const managerServer =  http.createServer(async(request, response) => {
+  const find = search => new Promise(resolve =>{
+    db.loadDatabase()
+    db.find(search).sort({id:-1}).exec((err, docs)=>{
+      //console.log(docs)
+      resolve(docs)
+    })
+  })
+  let URL = request.url.toLowerCase()
+  console.log(`m - ${URL}`)
+  if(request.method === 'POST') {
+    let postData = ''
+    request.on('data', (chunk) => {
+      postData += chunk
+    })
+    request.on('end',async function() {
+      postData = postData.replace(/\+/gi,' ')
+      postData = postData.split('&')
+      const postDataJson = {}
+      const match = ['id','title','html','tag']
+      for(let i of postData){
+        i = decodeURIComponent(i)
+        for(let j of match){
+          if(i.match(j)){
+            postDataJson[j] = i.replace(j,'').replace(/\=/,'')
+          }
+        }
+      }
+      //バリテーション
+      for(let i in postDataJson){
+        if(i==='tag')continue
+        if(postDataJson[i]===''){
+          response.writeHead(400)
+          response.end(`error\n${i} empty`)
+          return
+        }
+      }
+      postDataJson.id = Number(postDataJson.id)
+      postDataJson.time = (new Date).toLocaleString()
+      //console.log(postDataJson)
+      db.update({id:postDataJson.id},postDataJson,{ upsert: true },(err, numReplaced, upsert)=>{
+        response.writeHead(200)
+        response.end(`${!!upsert?'newDataInsert':'update'}\nsucsess`)
+        return
+      })
+    })
+  }else if(URL.match(/^\/$|^\/index.html$/gi)){
+    response.writeHead(200)
+    response.end(fs.readFileSync('./manager/index.html'))
+    return
+  }else if(URL.match(/^\/favicon.ico$/gi)){
+    //なんとかしろ
+    response.writeHead(404)
+    response.end()
+    return
+  }else if(URL.match(/^\/edit\.js$|^\/edit\.css$|^\/edit\.html$/gi)){
+    response.writeHead(200)
+    response.end(fs.readFileSync(`./manager${URL}`,'utf8'))
+    return
+  }else if(URL.match(/^\/edit\/\d$/gi)){
+    let findData = await find({id:Number(URL.match(/^\/edit\/\d$/gi)[0].replace(/^\/edit\//,''))})
+    if(findData.length===0){
+      response.writeHead(404)
+      response.end(`404 notfound`)
+      return
+    }else{
+      response.writeHead(200)
+      response.end(JSON.stringify(findData[0]))
+    }
+    return
+  }else if(URL.match(/\.png$|\.jpg$/gi)){
+    try{
+      response.writeHead(200)
+      response.end(fs.readFileSync(`./views/blog/file/${URL}`))
+      return
+    }catch(e){
+      response.writeHead(404)
+      response.end('404 notfound')
+      return
+    }
+  }else{
+    response.writeHead(404)
+    response.end('404 notfound')
+    return
+  }
+})
+
+managerServer.listen(7082)

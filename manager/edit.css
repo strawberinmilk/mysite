@@ -1,0 +1,14 @@
+#editArea{
+  width:50%;
+  position: absolute;
+  top:0px;
+  left:0px;
+}
+#seeArea{
+  height:100%;
+  width:50%;
+  position: absolute;
+  top:0px;
+  left:50%;
+  overflow: scroll;
+}

@@ -1,25 +1,17 @@
-/*
 /////////////////////////////////////////////////////
 //モジュール読み込み
-const nedb = require("nedb")
-let db = new nedb({ 
-    filename: './nedb.db',
-    autoload: true
-})
-/////////////////////////////////////////////////////
-//汎用関数
-/////////////////////////////////////////////////////
-const find = search => new Promise(resolve =>{
-  db.loadDatabase()
-  db.find(search).sort({id:-1}).exec((err, docs)=>{
-    //console.log(docs)
-    resolve(docs)
-  })
-})
 /////////////////////////////////////////////////////
 //メイン関数
 /////////////////////////////////////////////////////
 module.exports = async (request) =>{
+  const find = search => new Promise(resolve =>{
+    request.db.loadDatabase()
+    request.db.find(search).sort({id:-1}).exec((err, docs)=>{
+      //console.log(docs)
+      resolve(docs)
+    })
+  })
+
   let returnData
   if(request.URL.match(/^\/blog\/\d+$/gi)){
     const pageNumber = request.URL.match(/\d+$/gi)[0] *1
@@ -34,13 +26,12 @@ module.exports = async (request) =>{
       returnData.html += `<a href="/blog/search/${j}">${j}</a>`
     }
   }else if(request.URL.match(/^\/blog\/search/gi)){
-
     let search = request.URL.replace(/^\/blog\/search/gi,'')
     try{
       search = decodeURIComponent(search)
     }catch(e){}
     let data
-    search = search.replace(/[!-@]|[\[-\`]|[\{-\~]/gi,"")
+    search = search.replace(/[!-/]|[:-@]|[\[-\`]|[\{-\~]/gi,"")
     data = await find({tag:new RegExp(search)})
     returnData = {}
     returnData.title = 'result'
@@ -97,4 +88,3 @@ module.exports = async (request) =>{
     //<script type="text/javascript" src="./index.js"></script>`
   return returnHTML
 }
-*/
