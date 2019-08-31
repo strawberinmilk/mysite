@@ -6,10 +6,10 @@ write()
 document.getElementById('editArea').addEventListener('keyup',()=>{
   write()
 })
-/*setInterval(()=>{
-  write()
-},1000)*/
 
+setTimeout(() => {
+  document.getElementById('header').parentNode.removeChild(document.getElementById('header'))
+}, 1000)
 
 document.getElementById('getButton').onclick = (()=>{
   let xhr = new XMLHttpRequest()

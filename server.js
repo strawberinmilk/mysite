@@ -49,6 +49,12 @@ const log = (URL,statusCode,headers)=>{
   console.log(`${statusCode} -- ${URL}`)
   fs.appendFileSync("./log/log.txt",`${new Date},${statusCode},${URL},${JSON.stringify(headers)}\n`)
 }
+const special = (URL)=>{
+  for(let i of specialFileList){
+    if(URL.match(i)) return ({data:specialList[i],URL:i})
+  }
+  return
+}
 //////////////////////////////////////////////////////////////////
 //メイン関数
 //response.end()の際は
@@ -67,12 +73,10 @@ const server =  http.createServer(async(request, response) => {
     return
   }
   //special
-  for(let i of specialFileList){
-    if(URL.match(i)){
-      data = specialList[i]
-      URL = i
-      break
-    }
+  let spesialExist = special(URL)
+  if(spesialExist){
+    data = spesialExist.data
+    URL = spesialExist.URL
   }
   //controller
   //let controllerData
@@ -93,7 +97,7 @@ const server =  http.createServer(async(request, response) => {
       if(URL.match(/\.html$/gi)){
         data = fs.readFileSync(`./views/${URL}`,"utf8")
       }else if(URL.match(/^\/blog\/.+/gi)){
-        data = fs.readFileSync(`./views/blog/file/${URL.replace(/^\/blog\//,'')}`)
+        data = fs.readFileSync(`./blog/${URL.replace(/^\/blog\//,'')}`)
       }else{
         data = fs.readFileSync(`./views/${URL}`)
       }
@@ -212,7 +216,13 @@ const managerServer =  http.createServer(async(request, response) => {
   })
   let URL = request.url.toLowerCase()
   console.log(`m - ${URL}`)
-  if(request.method === 'POST') {
+  let spesialExist = special(URL)
+  if(spesialExist){
+    URL = spesialExist.URL
+    response.writeHead(200)
+    response.end(spesialExist.data)
+    return
+  }else if(request.method === 'POST') {
     let postData = ''
     request.on('data', (chunk) => {
       postData += chunk
@@ -272,21 +282,22 @@ const managerServer =  http.createServer(async(request, response) => {
       response.end(JSON.stringify(findData[0]))
     }
     return
-  }else if(URL.match(/\.png$|\.jpg$/gi)){
+  }else/* if(URL.match(/\.png$|\.jpg$/gi))*/{
     try{
+      const file = fs.readFileSync(`./blog/${URL}`)
       response.writeHead(200)
-      response.end(fs.readFileSync(`./views/blog/file/${URL}`))
+      response.end(file)
       return
     }catch(e){
       response.writeHead(404)
       response.end('404 notfound')
       return
     }
-  }else{
+  }/*else{
     response.writeHead(404)
     response.end('404 notfound')
     return
-  }
+  }*/
 })
 
 managerServer.listen(7082)

@@ -20,7 +20,7 @@ module.exports = async (request) =>{
       return
     }
     returnData = data[0]
-    returnData.html += '<br></br>この記事につけられたタグ<br>'
+    returnData.html = `<h1>${returnData.title}</h1>${returnData.time}<br><br>${returnData.html}<br></br>この記事につけられたタグ<br>`
     returnData.tag = returnData.tag.split(' ')
     for(j of returnData.tag){
       returnData.html += `<a href="/blog/search/${j}">${j}</a>`
@@ -36,7 +36,7 @@ module.exports = async (request) =>{
     returnData = {}
     returnData.title = 'result'
     returnData.html = 
-      `<link rel="stylesheet" type="text/css" href="search.css">
+    `<link rel="stylesheet" type="text/css" href="/blog/search.css">
       <h3>${search} 検索結果</h3>
       <table id=table>
       <tr class="magenta">

@@ -8,5 +8,5 @@ node_modules/
 nedb.db
 log/log.txt
 
-views/blog/file/*
-!views/blog/file/.keep
+blog/*
+!blog/.keep
