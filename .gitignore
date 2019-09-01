@@ -10,3 +10,4 @@ log/log.txt
 
 blog/*
 !blog/.keep
+!blog/search.css
