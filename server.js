@@ -1,3 +1,5 @@
+console.log('http://localhost:7080')
+console.log('http://localhost:7082')
 //////////////////////////////////////////////////////////////////
 //モジュールの設定
 const http = require("http")
@@ -222,7 +224,7 @@ const managerServer =  http.createServer(async(request, response) => {
     response.writeHead(200)
     response.end(spesialExist.data)
     return
-  }else if(request.method === 'POST') {
+  }else if(request.method === 'POST' && URL.match(/^\/blog$/gi)) {
     let postData = ''
     request.on('data', (chunk) => {
       postData += chunk
@@ -258,6 +260,44 @@ const managerServer =  http.createServer(async(request, response) => {
         return
       })
     })
+  }else if(request.method === 'POST' && URL.match(/^\/upload$/gi)) {
+    const multiparty = require('multiparty')
+    var form = new multiparty.Form({uploadDir:`./temp/`});
+    form.parse(request, function(err, fields, files) {
+      console.log(JSON.stringify(files))
+      const originalFilename = files.pic[0].originalFilename
+      const tempFIlePath = files.pic[0].path
+      if(originalFilename===''){
+        response.writeHead(400, {"Content-Type": "text/html"})
+        response.end(`<meta charset="UTF-8">データをおくりなさーーい`)
+        fs.unlinkSync(`${__dirname}/${tempFIlePath}`)
+        return
+      }else if(false){
+      }else{
+        try{
+          fs.statSync(`${__dirname}/blog/${originalFilename}`)
+        }catch(e){
+          //既存なし
+          fs.renameSync(`${__dirname}/${tempFIlePath}`,`${__dirname}/blog/${originalFilename}`)
+          response.writeHead(200)
+          response.end('<meta charset="UTF-8">データは保存されました(既存なし)')
+          return
+        }
+        if(fields.overwrite){
+          //既存ありフラグあり(強制上書き)
+          fs.renameSync(`${__dirname}/${tempFIlePath}`,`${__dirname}/blog/${originalFilename}`)
+          response.writeHead(200)
+          response.end('<meta charset="UTF-8">データは保存されました(既存ありフラグあり強制上書き)')
+          return
+        }else{
+          //既存ありフラグなし
+          fs.unlinkSync(`${__dirname}/${tempFIlePath}`)
+          response.writeHead(202)
+          response.end('<meta charset="UTF-8">ファイルがあります<br>上書きフラグをオンにしてください')
+          return
+        }
+      }
+    })
   }else if(URL.match(/^\/$|^\/index.html$/gi)){
     response.writeHead(200)
     response.end(fs.readFileSync('./manager/index.html'))
@@ -267,7 +307,7 @@ const managerServer =  http.createServer(async(request, response) => {
     response.writeHead(404)
     response.end()
     return
-  }else if(URL.match(/^\/edit\.js$|^\/edit\.css$|^\/edit\.html$/gi)){
+  }else if(URL.match(/^\/edit\.js$|^\/edit\.css$|^\/edit\.html$|^\/upload.html$/gi)){
     response.writeHead(200)
     response.end(fs.readFileSync(`./manager${URL}`,'utf8'))
     return

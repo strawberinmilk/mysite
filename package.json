@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "http": "0.0.0",
+    "multiparty": "^4.2.1",
     "nedb": "^1.8.0"
   }
 }

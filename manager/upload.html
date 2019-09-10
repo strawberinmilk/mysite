@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>upload</title>
+</head>
+<body>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input name="pic" type="file" id="file" ><br>
+    上書き許可(基本的にはオフにする 必要な場合のみ使うこと)<br>
+    <input name="overwrite" type="checkbox"><br>
+    <input type="submit" value="送信">
+  </form>
+</body>
+</html>
