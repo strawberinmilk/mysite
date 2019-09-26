@@ -11,3 +11,6 @@ log/log.txt
 blog/*
 !blog/.keep
 !blog/search.css
+!blog/recycle
+blog/recycle/*
+!blog/recycle/.keep

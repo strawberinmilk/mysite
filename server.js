@@ -13,6 +13,20 @@ let db = new nedb({
   autoload: true
 })
 
+const HTMLTEMPLATE = `
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>__title</title>
+</head>
+<body>
+  __body
+</body>
+</html>
+`
 //////////////////////////////////////////////////////////////////
 
 //specialFileの取得と更新時のリロード
@@ -208,6 +222,22 @@ const managerServer =  http.createServer(async(request, response) => {
 managerServer.listen(7081)
 */
 ///////////////////////////////////////////////////////////////
+const MANAGERHTMLTEMPLATE = `
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>__title</title>
+</head>
+<body>
+  __body
+  <a href="index.html">top</a>
+</body>
+</html>
+`
+
 const managerServer =  http.createServer(async(request, response) => {
   const find = search => new Promise(resolve =>{
     db.loadDatabase()
@@ -219,6 +249,7 @@ const managerServer =  http.createServer(async(request, response) => {
   let URL = request.url.toLowerCase()
   console.log(`m - ${URL}`)
   let spesialExist = special(URL)
+  const banList = /^\.keep$|^recycle$|^search.css$/
   if(spesialExist){
     URL = spesialExist.URL
     response.writeHead(200)
@@ -262,14 +293,14 @@ const managerServer =  http.createServer(async(request, response) => {
     })
   }else if(request.method === 'POST' && URL.match(/^\/upload$/gi)) {
     const multiparty = require('multiparty')
-    var form = new multiparty.Form({uploadDir:`./temp/`});
+    const form = new multiparty.Form({uploadDir:`./temp/`})
     form.parse(request, function(err, fields, files) {
       console.log(JSON.stringify(files))
       const originalFilename = files.pic[0].originalFilename
       const tempFIlePath = files.pic[0].path
       if(originalFilename===''){
         response.writeHead(400, {"Content-Type": "text/html"})
-        response.end(`<meta charset="UTF-8">データをおくりなさーーい`)
+        response.end(`<meta charset="UTF-8"> データをおくりなさーーい`)
         fs.unlinkSync(`${__dirname}/${tempFIlePath}`)
         return
       }else if(false){
@@ -279,25 +310,53 @@ const managerServer =  http.createServer(async(request, response) => {
         }catch(e){
           //既存なし
           fs.renameSync(`${__dirname}/${tempFIlePath}`,`${__dirname}/blog/${originalFilename}`)
-          response.writeHead(200)
-          response.end('<meta charset="UTF-8">データは保存されました(既存なし)')
+          response.writeHead(200, {"Content-Type": "text/html"})
+          response.end('<meta charset="UTF-8"> データは保存されました(既存なし)')
           return
         }
         if(fields.overwrite){
           //既存ありフラグあり(強制上書き)
           fs.renameSync(`${__dirname}/${tempFIlePath}`,`${__dirname}/blog/${originalFilename}`)
-          response.writeHead(200)
-          response.end('<meta charset="UTF-8">データは保存されました(既存ありフラグあり強制上書き)')
+          response.writeHead(200, {"Content-Type": "text/html"})
+          response.end('<meta charset="UTF-8"> データは保存されました(既存ありフラグあり強制上書き)')
           return
         }else{
           //既存ありフラグなし
           fs.unlinkSync(`${__dirname}/${tempFIlePath}`)
-          response.writeHead(202)
-          response.end('<meta charset="UTF-8">ファイルがあります<br>上書きフラグをオンにしてください')
+          response.writeHead(202, {"Content-Type": "text/html"})
+          response.end('<meta charset="UTF-8"> ファイルがあります<br>上書きフラグをオンにしてください')
           return
         }
       }
     })
+  }else if(request.method === 'GET' && URL.match(/^\/filelist$/gi)){
+//    const fileList = fs.readdirSync('./blog', {withFileTypes:true})
+    const fileList = fs.readdirSync('./blog')
+    let ans = 'fileList<table>'
+    for(let i of fileList){
+      if(i.match(banList)) continue
+      ans += `<tr><th><a href="${i}">${i}</a></th><th><a href="delete/${i}">delete</a></th></tr>\n`
+    }
+    ans += '</table>'
+    response.writeHead(200, {"Content-Type": "text/html"})
+    response.end(MANAGERHTMLTEMPLATE.replace(/__body/gi,ans))
+  }else if(URL.match(/^\/delete\//gi)){
+    const targetName = URL.replace(/\/delete\//gi,'')
+    if(targetName.match(banList)){
+      response.writeHead(403)
+      response.end(MANAGERHTMLTEMPLATE.replace(/__body/gi,'cantaccess'))
+      return
+    }
+    try{
+      fs.renameSync(`./blog/${targetName}`,`./blog/recycle/${targetName}`)
+      response.writeHead(200)
+      response.end(MANAGERHTMLTEMPLATE.replace(/__body/gi,'sucsess'))
+      return
+    }catch(e){
+      response.writeHead(202)
+      response.end(MANAGERHTMLTEMPLATE.replace(/__body/gi,'error'))
+      return
+    }
   }else if(URL.match(/^\/$|^\/index.html$/gi)){
     response.writeHead(200)
     response.end(fs.readFileSync('./manager/index.html'))
@@ -312,7 +371,8 @@ const managerServer =  http.createServer(async(request, response) => {
     response.end(fs.readFileSync(`./manager${URL}`,'utf8'))
     return
   }else if(URL.match(/^\/edit\/\d$/gi)){
-    let findData = await find({id:Number(URL.match(/^\/edit\/\d$/gi)[0].replace(/^\/edit\//,''))})
+    //edit.htmlのajax更新用
+    let findData = await find({id:Number(URL.match(/^\/edit\/\d$/gi)[0].replace(/^\/edit\//gi,''))})
     if(findData.length===0){
       response.writeHead(404)
       response.end(`404 notfound`)
@@ -333,11 +393,29 @@ const managerServer =  http.createServer(async(request, response) => {
       response.end('404 notfound')
       return
     }
-  }/*else{
-    response.writeHead(404)
-    response.end('404 notfound')
-    return
-  }*/
+  }
 })
 
 managerServer.listen(7082)
+
+/*
+const testServer =  http.createServer(async(req, response) => {
+
+  var getIP = function () {
+    console.log('56562')
+    if (req.connection && req.connection.remoteAddress) {
+      //console.log(req.connection)
+    }
+    if (req.connection.socket && req.connection.socket.remoteAddress) {
+      console.log(req.connection.socket.remoteAddress)
+    }
+    if (req.socket && req.socket.remoteAddress) {
+      console.log(req.socket.remoteAddress)
+    }
+  }
+
+  getIP()
+  response.end()
+})
+testServer.listen(7083)
+*/

@@ -1,1 +1,3 @@
-delete機能
+serverのログの詳細化
+search.cssを移動しよう
+htmltemolateの適用

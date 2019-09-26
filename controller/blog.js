@@ -23,7 +23,7 @@ module.exports = async (request) =>{
     returnData.html = `<h1>${returnData.title}</h1>${returnData.time}<br><br>${returnData.html}<br></br>この記事につけられたタグ<br>`
     returnData.tag = returnData.tag.split(' ')
     for(j of returnData.tag){
-      returnData.html += `<a href="/blog/search/${j}">${j}</a>`
+      returnData.html += `<a href="/blog/search/${j}">${j}</a>&nbsp;&nbsp;`
     }
   }else if(request.URL.match(/^\/blog\/search/gi)){
     let search = request.URL.replace(/^\/blog\/search/gi,'')
