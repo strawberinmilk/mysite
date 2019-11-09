@@ -61,21 +61,41 @@ fs.watch('./controller/',(event,filename)=>{
 })
 //////////////////////////////////////////////////////////////////
 //汎用関数
-const log = (URL,statusCode,headers)=>{
-  console.log(`${statusCode} -- ${URL}`)
-  fs.appendFileSync("./log/log.txt",`${new Date},${statusCode},${URL},${JSON.stringify(headers)}\n`)
-}
+//const log = (URL,statusCode,headers)=>{
+//  console.log(`${statusCode} -- ${URL}`)
+//  fs.appendFileSync("./log/log.txt",`${new Date},${statusCode},${URL},${JSON.stringify(headers)}\n`)
+//}
 const special = (URL)=>{
   for(let i of specialFileList){
     if(URL.match(i)) return ({data:specialList[i],URL:i})
   }
   return
 }
+const takeLog = (request,statusCode) =>{
+  let ans = {}
+  ans.time = (new Date).toLocaleString()
+  ans.statusCode = statusCode
+  ans.url = request.url.toLowerCase()
+  ans.remoteAddress = request.socket.remoteAddress
+  ans.referer = request.headers.referer
+  ans.userAgent = request.headers["user-agent"]
+
+  if(ans.remoteAddress.match(/192\.168\.0\.|^\:\:1$/gi)){
+    fs.appendFileSync("./log/local.txt",`${JSON.stringify(ans)}\n`)
+  }else{
+    fs.appendFileSync(`./log/global/${(new Date).getFullYear()}${(new Date).getMonth()+1}.txt`,`${JSON.stringify(ans)}\n`)
+    if(!special(request.url.toLowerCase())){
+      fs.appendFileSync(`./log/rmSpecial/${(new Date).getFullYear()}${(new Date).getMonth()+1}.txt`,`${JSON.stringify(ans)}\n`)
+    }
+  }
+}
 //////////////////////////////////////////////////////////////////
 //メイン関数
 //response.end()の際は
-//log(URL,statusCode,request.headers)
+//takeLog(request,${statusCode})
 //を呼ぶこと
+//旧system:log(URL,statusCode,request.headers)
+
 const server =  http.createServer(async(request, response) => {
   let URL = request.url.toLowerCase()
   let data
@@ -85,7 +105,8 @@ const server =  http.createServer(async(request, response) => {
       "Location": "/top/index.html"
     })
     response.end()
-    log(URL,302,request.headers)
+    //log(URL,302,request.headers)
+    takeLog(request,302)
     return
   }
   //special
@@ -120,7 +141,8 @@ const server =  http.createServer(async(request, response) => {
     }catch(e){
       response.writeHead(404, {"Content-Type": "text/html"})
       response.end(fs.readFileSync("./views/error/404.html"))
-      log(URL,404,request.headers)
+      //log(URL,404,request.headers)
+      takeLog(request,404)
       return
     }
   }
@@ -146,7 +168,8 @@ const server =  http.createServer(async(request, response) => {
   
   response.write(data)
   response.end()
-  log(URL,200,request.headers)
+    //log(URL,200,request.headers)
+    takeLog(request,200)
 })
 
 server.listen(7080)
@@ -398,24 +421,9 @@ const managerServer =  http.createServer(async(request, response) => {
 
 managerServer.listen(7082)
 
-/*
-const testServer =  http.createServer(async(req, response) => {
 
-  var getIP = function () {
-    console.log('56562')
-    if (req.connection && req.connection.remoteAddress) {
-      //console.log(req.connection)
-    }
-    if (req.connection.socket && req.connection.socket.remoteAddress) {
-      console.log(req.connection.socket.remoteAddress)
-    }
-    if (req.socket && req.socket.remoteAddress) {
-      console.log(req.socket.remoteAddress)
-    }
-  }
-
-  getIP()
-  response.end()
-})
-testServer.listen(7083)
-*/
+//const testServer =  http.createServer(async(request, response) => {
+//  response.end((new Date).toString())
+//  //takeLog(request)
+//})
+//testServer.listen(7089)

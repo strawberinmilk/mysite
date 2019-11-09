@@ -8,6 +8,12 @@ node_modules/
 nedb.db
 log/log.txt
 
+log/local.txt
+log/global/*
+log/rmSpecial/*
+!log/global/.keep
+!log/rmSpecial/.keep
+
 blog/*
 !blog/.keep
 !blog/search.css
