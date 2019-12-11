@@ -287,12 +287,13 @@ const managerServer =  http.createServer(async(request, response) => {
       postData = postData.replace(/\+/gi,' ')
       postData = postData.split('&')
       const postDataJson = {}
-      const match = ['id','title','html','tag']
+      const matchRegex = ['^id=','^title=','^html=','^tag=']
+      const matchWord = ['id','title','html','tag']
       for(let i of postData){
         i = decodeURIComponent(i)
-        for(let j of match){
-          if(i.match(j)){
-            postDataJson[j] = i.replace(j,'').replace(/\=/,'')
+        for(let j=0;j<matchRegex.length;j++){
+          if(i.match(matchRegex[j])){
+            postDataJson[matchWord[j]] = i.replace(matchWord[j]+'=','')
           }
         }
       }
